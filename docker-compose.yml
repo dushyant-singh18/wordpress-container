@@ -1,0 +1,30 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: wordpres-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: WB
+      MYSQL_USER: wb
+      MYSQL_PASSWORD: wb123
+    volumes:
+      - db_data:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:latest
+    container_name: wPRES
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wb
+      WORDPRESS_DB_PASSWORD: wb123
+      WORDPRESS_DB_NAME: WB
+    volumes:
+      - wp_data:/var/www/html
+    depends_on:
+      - db
+
+volumes:
+  db_data:
+  wp_data:
